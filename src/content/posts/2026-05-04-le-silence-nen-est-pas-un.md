@@ -2,6 +2,7 @@
 title: "Le silence de Sleep Token n'en est pas un"
 description: "État des lieux mai 2026, un an après Even in Arcadia. Pourquoi la traîne commerciale exceptionnelle réécrit la lecture du silence post-album, et ce qu'on peut attendre du cycle 2027."
 date: 2026-05-04
+slug: "le-silence-nen-est-pas-un"
 era: "Even in Arcadia"
 tags: ["analyse", "cycles", "industrie"]
 confidence: 0.85
