@@ -1,0 +1,355 @@
+/* ============================================================
+   Design system — inspiré HA v5/v7 (tokens cohérents avec ton style)
+   Inactive bg : rgba(8,9,14)  |  Active bg : rgba(12,16,26)
+   Borders : rgba(255,255,255,0.16)  |  Radius : 14px
+   Accent : néon froid pour les titres et le hover
+   ============================================================ */
+
+:root {
+  --bg-base: rgb(8, 9, 14);
+  --bg-elev: rgb(12, 16, 26);
+  --bg-card: rgba(20, 24, 36, 0.6);
+
+  --border: rgba(255, 255, 255, 0.16);
+  --border-strong: rgba(255, 255, 255, 0.28);
+
+  --text: rgba(255, 255, 255, 0.92);
+  --text-muted: rgba(255, 255, 255, 0.58);
+  --text-faint: rgba(255, 255, 255, 0.38);
+
+  --accent: #6ee7ff;
+  --accent-glow: rgba(110, 231, 255, 0.45);
+  --accent-soft: rgba(110, 231, 255, 0.12);
+
+  --radius: 14px;
+  --radius-lg: 20px;
+
+  --font-serif: 'EB Garamond', 'Times New Roman', Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+
+  --max-width: 720px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-base: #fafaf9;
+    --bg-elev: #ffffff;
+    --bg-card: rgba(255, 255, 255, 0.8);
+    --border: rgba(0, 0, 0, 0.12);
+    --border-strong: rgba(0, 0, 0, 0.22);
+    --text: rgba(0, 0, 0, 0.88);
+    --text-muted: rgba(0, 0, 0, 0.56);
+    --text-faint: rgba(0, 0, 0, 0.38);
+    --accent: #0284a8;
+    --accent-glow: rgba(2, 132, 168, 0.35);
+    --accent-soft: rgba(2, 132, 168, 0.08);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-base);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ----- Header ----- */
+header.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 0;
+  margin-bottom: 3rem;
+}
+
+header.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.site-title {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.site-title:hover {
+  color: var(--accent);
+}
+
+nav.site-nav a {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-left: 1.5rem;
+}
+
+nav.site-nav a:hover {
+  color: var(--accent);
+}
+
+/* ----- Typography ----- */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 2.4rem;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.6rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+}
+
+p {
+  margin: 0 0 1.2rem 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+  transition: border-color 0.2s ease;
+}
+
+a:hover {
+  border-bottom-color: var(--accent);
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0.5rem 1.25rem;
+  border-left: 2px solid var(--accent);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--accent-soft);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+
+pre {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+/* ----- Article cards (homepage) ----- */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.post-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.post-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent-glow) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.post-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.post-card:hover::before {
+  opacity: 1;
+}
+
+.post-card a {
+  border-bottom: none;
+  color: var(--text);
+}
+
+.post-card h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+  border: none;
+  padding: 0;
+}
+
+.post-card .meta {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.75rem;
+}
+
+.post-card .description {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* ----- Article page ----- */
+article.post {
+  padding-bottom: 3rem;
+}
+
+article.post .post-meta {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 1rem;
+}
+
+article.post h1 {
+  margin-top: 0;
+}
+
+article.post .description {
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  font-style: italic;
+  margin-bottom: 3rem;
+}
+
+/* ----- Tags ----- */
+.tag {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  margin-right: 0.4rem;
+}
+
+/* ----- Footer ----- */
+footer.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  margin-top: 5rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+footer.site-footer a {
+  color: var(--text-muted);
+  border-bottom: none;
+}
+
+footer.site-footer a:hover {
+  color: var(--accent);
+}
+
+/* ----- Comments (Giscus) ----- */
+.comments-section {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.comments-section h3 {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ----- Mobile ----- */
+@media (max-width: 600px) {
+  body {
+    font-size: 17px;
+  }
+  h1 {
+    font-size: 1.9rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+  }
+  .container {
+    padding: 0 1rem;
+  }
+}

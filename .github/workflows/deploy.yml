@@ -1,0 +1,94 @@
+name: Deploy site & notify Discord
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Notification Discord uniquement si nouveaux articles dans le dernier commit
+  notify-discord:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect new posts
+        id: detect
+        run: |
+          NEW_POSTS=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/posts/*.md' || true)
+          if [ -n "$NEW_POSTS" ]; then
+            echo "has_new=true" >> $GITHUB_OUTPUT
+            FIRST=$(echo "$NEW_POSTS" | head -n 1)
+            TITLE=$(grep -m1 '^title:' "$FIRST" | sed 's/title: *//;s/^"//;s/"$//')
+            DESC=$(grep -m1 '^description:' "$FIRST" | sed 's/description: *//;s/^"//;s/"$//')
+            SLUG=$(basename "$FIRST" .md)
+            echo "title=$TITLE" >> $GITHUB_OUTPUT
+            echo "description=$DESC" >> $GITHUB_OUTPUT
+            echo "slug=$SLUG" >> $GITHUB_OUTPUT
+          else
+            echo "has_new=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send Discord notification
+        if: steps.detect.outputs.has_new == 'true' && env.DISCORD_WEBHOOK != ''
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" -X POST -d "{
+            \"username\": \"Sleep Token / Analyses\",
+            \"embeds\": [{
+              \"title\": \"${{ steps.detect.outputs.title }}\",
+              \"description\": \"${{ steps.detect.outputs.description }}\",
+              \"url\": \"${{ vars.SITE_URL }}/posts/${{ steps.detect.outputs.slug }}/\",
+              \"color\": 7269375,
+              \"footer\": { \"text\": \"Nouveau sur le site\" }
+            }]
+          }" "$DISCORD_WEBHOOK"

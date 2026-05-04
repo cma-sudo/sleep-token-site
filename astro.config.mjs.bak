@@ -1,0 +1,22 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+
+// IMPORTANT — adapte ces deux valeurs avant le premier déploiement :
+// - site : URL finale du site (GitHub Pages = https://<username>.github.io/<repo>/)
+// - base : si le repo s'appelle "sleep-token-site", base = '/sleep-token-site/'
+//          si tu utilises un domaine custom (CNAME), site = 'https://tondomaine.com' et base = '/'
+export default defineConfig({
+  site: 'https://chmattera.github.io',
+  base: '/sleep-token-site',
+  integrations: [sitemap()],
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark',
+      wrap: true,
+    },
+  },
+  build: {
+    format: 'directory',
+  },
+});

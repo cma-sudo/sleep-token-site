@@ -1,0 +1,62 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  updated?: Date;
+  tags?: string[];
+  era?: string;
+}
+
+const { title, description, date, updated, tags = [], era } = Astro.props;
+const formatDate = (d: Date) => d.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={`${title} — Sleep Token / Analyses`} description={description}>
+  <article class="post">
+    <div class="post-meta">
+      {era && <span>{era}</span>}
+      {era && ' · '}
+      <time datetime={date.toISOString()}>{formatDate(date)}</time>
+      {updated && (
+        <>
+          {' · '}
+          <span>maj {formatDate(updated)}</span>
+        </>
+      )}
+    </div>
+
+    <h1>{title}</h1>
+    <p class="description">{description}</p>
+
+    <slot />
+
+    {tags.length > 0 && (
+      <div style="margin-top: 3rem;">
+        {tags.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+    )}
+
+    <section class="comments-section">
+      <h3>Discussion</h3>
+      <script
+        src="https://giscus.app/client.js"
+        data-repo="REMPLACE_PAR_TON_USER/sleep-token-site"
+        data-repo-id="REMPLACE_PAR_REPO_ID"
+        data-category="Articles"
+        data-category-id="REMPLACE_PAR_CATEGORY_ID"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="dark_dimmed"
+        data-lang="fr"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async></script>
+    </section>
+  </article>
+</BaseLayout>

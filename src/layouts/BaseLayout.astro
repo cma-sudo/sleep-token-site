@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = "Analyses longues et lectures critiques sur Sleep Token.", image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`} />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+
+    <link rel="alternate" type="application/rss+xml" title="Sleep Token Analyses" href={`${import.meta.env.BASE_URL}/rss.xml`} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a href={import.meta.env.BASE_URL || '/'} class="site-title">Sleep Token / Analyses</a>
+        <nav class="site-nav">
+          <a href={`${import.meta.env.BASE_URL}/`}>Articles</a>
+          <a href={`${import.meta.env.BASE_URL}/about`}>À propos</a>
+          <a href={`${import.meta.env.BASE_URL}/rss.xml`}>RSS</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          Site personnel d'analyses — Christophe Mattera ·
+          <a href="https://discord.gg/REMPLACE_PAR_TON_INVITE" target="_blank" rel="noopener">Discord</a> ·
+          <a href={`${import.meta.env.BASE_URL}/rss.xml`}>RSS</a>
+        </p>
+        <p style="margin-top: 0.5rem; font-size: 0.7rem; color: var(--text-faint);">
+          Aucune affiliation avec Sleep Token, RCA Records ou Rico Management.<br />
+          Toutes les analyses sont des opinions personnelles à des fins de critique culturelle.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
