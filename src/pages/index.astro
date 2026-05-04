@@ -16,14 +16,14 @@ const formatDate = (d: Date) => d.toLocaleDateString('fr-FR', { year: 'numeric',
     </p>
     <p style="color: var(--text-faint); font-size: 0.9rem;">
       Publié quand l'envie vient. Pas de calendrier, pas de newsletter — discussions sur le
-      <a href="https://discord.gg/REMPLACE_PAR_TON_INVITE" target="_blank" rel="noopener">Discord</a>.
+      <a href="https://discord.gg/GREyVbEy" target="_blank" rel="noopener">Discord</a>.
     </p>
   </section>
 
   <ul class="post-list">
     {posts.map((post) => (
       <li class="post-card">
-        <a href={`${import.meta.env.BASE_URL}/posts/${post.slug}/`}>
+        <a href={`${import.meta.env.BASE_URL.replace(/\/$/,"")}/posts/${post.slug}/`}>
           <div class="meta">
             {post.data.era && <span>{post.data.era} · </span>}
             <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
